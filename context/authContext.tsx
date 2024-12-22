@@ -31,8 +31,6 @@ export const AuthContextProvider = ({ children }) => {
     const signOut = async () => {
         if (pathname.includes('chat')) {
             router.push('/auth/login');
-        } else {
-            router.push('/auth/login');
         }
 
         await authSignOut(auth);
