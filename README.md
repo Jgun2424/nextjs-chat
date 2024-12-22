@@ -86,7 +86,7 @@ nextjs-chat/
 │       └── [chatId].js
 ├── public/
 │   └── avatars/
-│       └── shadcn.jpg
+│       └── gerald.jpg
 ├── .env.local
 ├── .gitignore
 ├── package.json
