@@ -1,7 +1,8 @@
 'use client'
 import React from 'react'
 import { useParams } from 'next/navigation'
-import { ChatScreen } from '@/components/chat/chat-screen'
+import { ChatScreen } from '@/components/chat/chat-screenRevamp'
+import { ChatScreenInactive } from '@/components/chat/chat-screen'
 
 export default function page() {
   const { chat_id } = useParams()
@@ -9,6 +10,7 @@ export default function page() {
   return (
     <>
         <ChatScreen chatId={chat_id} />
+        {/* <ChatScreenInactive  chatId={chat_id}/> */}
     </>
   )
 }

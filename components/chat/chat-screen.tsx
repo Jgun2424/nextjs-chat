@@ -35,7 +35,7 @@ interface GroupedMessage {
   timestamp: string;
 }
 
-export function ChatScreen({ chatId }: { chatId: string }) {
+export function ChatScreenInactive({ chatId }: { chatId: string }) {
   const chatRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const { getChatDetails, getUserFromDatabase, user } = useAuth();

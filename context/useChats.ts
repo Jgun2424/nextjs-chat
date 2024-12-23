@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { query, collection, where, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
-import { useAuth } from '../context/authContext';
+import { useAuth } from './authContext';
 
 interface Chat {
     id: string;

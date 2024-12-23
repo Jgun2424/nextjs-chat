@@ -32,6 +32,9 @@ export default function RootLayout({
           >
           <ThemeProvider attribute="class" defaultTheme="dark" disableTransitionOnChange>
             <AppSidebar />
+            <div className="bg-slate-600 absolute left-10 top-10 items-center justify-center hidden max-md:flex">
+              <SidebarTrigger />
+            </div>
             {children}
           </ThemeProvider>
           </SidebarProvider>

@@ -107,7 +107,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarFooter>
       </Sidebar>
 
-      {pathname.includes('chat') ? <ChatsSidebar /> : null}
+      {pathname.includes('chat') ? <ChatsSidebar isMobile={false}/> : null}
     </Sidebar>
   )
 }

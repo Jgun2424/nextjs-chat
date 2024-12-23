@@ -8,14 +8,14 @@ import CreateNewChat from '../ui/create-new-chat-dialouge';
 import { useChats } from '@/context/useChats';
 import { useAuth } from '@/context/authContext';
 
-export default function ChatsSidebar() {
+export default function ChatsSidebar({isMobile}: {isMobile?: boolean}) {
     const pathname = usePathname();
     const { sortedChats } = useChats();
     const {user} = useAuth();
 
 
     return (
-        <Sidebar collapsible="none" className="hidden flex-1 md:flex">
+        <Sidebar collapsible="none" className={`flex-1 md:flex ${isMobile ? 'flex' : 'hidden'}`}>
             <SidebarHeader className="gap-3.5 border-b p-4">
                 <div className="flex w-full items-center justify-between">
                     <div className="text-base font-medium text-foreground">
