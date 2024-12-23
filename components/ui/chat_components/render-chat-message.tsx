@@ -1,8 +1,9 @@
 import React from 'react';
-import { Avatar, AvatarFallback, AvatarImage } from './avatar';
-import { Popover, PopoverTrigger, PopoverContent } from './popover';
+import { Avatar, AvatarFallback, AvatarImage } from '../avatar';
+import { Popover, PopoverTrigger, PopoverContent } from '../popover';
 import moment from 'moment';
-import { Badge } from './badge';
+import { Badge } from '../badge';
+import UserCard from './user-card';
 
 interface RenderChatMessageProps {
     message: [{ text: string; imageUrl?: string | null }];
@@ -30,12 +31,7 @@ const RenderChatMessage: React.FC<RenderChatMessageProps> = ({
             <div className="flex flex-col ml-3">
                 <div className="flex gap-2 items-center">
                     <span className="text-md font-semibold hover:underline cursor-pointer">
-                        <Popover>
-                            <PopoverTrigger className='flex items-center gap-2'>{senderDisplayName || 'Unknown User'} {senderID === "system" ? <Badge>System</Badge> : null}</PopoverTrigger>
-                            <PopoverContent side="right" sideOffset={5}>
-                                Place content for the popover here.
-                            </PopoverContent>
-                        </Popover>
+                        <UserCard senderDisplayName={senderDisplayName} senderID={senderID} />
                     </span>
                     <span className="text-sm text-muted-foreground">
                         {timestamp ? moment(timestamp).fromNow() : ''}

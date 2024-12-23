@@ -2,8 +2,8 @@
 
 import React from 'react';
 import { useMessages } from '@/context/messageHandler';
-import RenderChatMessage from '../ui/render-chat-message';
-import NewMessage from '../ui/new-message';
+import RenderChatMessage from '../ui/chat_components/render-chat-message';
+import NewMessage from '../ui/chat_components/new-message';
 import { SidebarTrigger } from '../ui/sidebar';
 
 export function ChatScreen({ chatId }: { chatId: string }) {
@@ -13,8 +13,7 @@ export function ChatScreen({ chatId }: { chatId: string }) {
 
   React.useEffect(() => {
     if (messageContainer.current) {
-      messageContainer.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
-
+      messageContainer.current.scrollTop = messageContainer.current.scrollHeight;
     }
   }, [groupedMessages, chatId]);
 

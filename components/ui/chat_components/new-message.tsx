@@ -3,7 +3,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { Button } from '@/components/ui/button'
 import EmojiPicker, { Theme } from 'emoji-picker-react';
-import { Input } from './input';
+import { Input } from '../input';
 import { uploadImage } from '@/utils/uploadImage';
 import { useAuth } from '@/context/authContext';
 import { db } from '@/firebaseConfig';
@@ -101,6 +101,11 @@ export default function NewMessage({ chatId }: { chatId: string }) {
       imageUrl: imageUrl,
     };
 
+    setInput('');
+    setImage(null);
+    setImageQueue([]);
+    setImageUrl(null);
+
     try {
       await updateDoc(doc(db, 'chats', chatId), {
         messages: arrayUnion(newMessage),
@@ -116,10 +121,6 @@ export default function NewMessage({ chatId }: { chatId: string }) {
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     await sendMessage(input);
-    setInput('');
-    setImage(null);
-    setImageQueue([]);
-    setImageUrl(null);
 
     if (inputRef.current) {
       inputRef.current.focus();
