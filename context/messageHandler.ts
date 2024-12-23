@@ -8,13 +8,12 @@ interface MessageHandlerProps {
 }
 
 interface GroupedMessage {
+    text: string;
+    imageUrl: null;
     senderID: string;
     senderDisplayName: string;
     senderPhotoURL: string | null;
-    messages: {
-        text: string;
-        imageUrl: string | null;
-    }[];
+    messages: any[];
     timestamp: string;
 }
 
@@ -80,12 +79,13 @@ export const useMessages = ({ chatId }: MessageHandlerProps) => {
                                     senderID: message.senderID,
                                     senderDisplayName: message.senderID === "system" ? "Gerald" : sender ? sender.displayName : "Unknown",
                                     senderPhotoURL: message.senderID === "system" ? "/gerald.png" : sender ? sender.photoURL : null,
-                                    messages: [{ 
+                                    messages: [{
                                         text: message.text,
                                         imageUrl: message.imageUrl || null,
-                                        
                                     }], // Ensure message is an object
                                     timestamp: message.timestamp,
+                                    imageUrl: null,
+                                    text: ''
                                 });
                             }
                             return acc;

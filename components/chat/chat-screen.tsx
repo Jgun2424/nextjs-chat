@@ -15,7 +15,6 @@ export function ChatScreen({ chatId }: { chatId: string }) {
       messageContainer.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
     }
   }, [groupedMessages, chatId]);
-  
 
 
   return (
@@ -37,7 +36,7 @@ export function ChatScreen({ chatId }: { chatId: string }) {
         {groupedMessages.slice().reverse().map((group) => (
           <RenderChatMessage
               key={group.senderID == "system" ? `sys-${Math.random().toString()}` : group.timestamp}
-              message={group.messages}
+              message={group.messages as [{ text: string; imageUrl?: string | null }]}
               senderDisplayName={group.senderDisplayName}
               timestamp={group.timestamp}
               senderID={group.senderID}
