@@ -1,6 +1,6 @@
 'use client'
 import { createContext, useState, useContext, useEffect } from 'react';
-import { onAuthStateChanged, signOut as authSignOut, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { onAuthStateChanged, signOut as authSignOut, signInWithPopup, GoogleAuthProvider, signInWithRedirect } from 'firebase/auth';
 import { getDoc, doc, setDoc, getDocs, collection, query, where, serverTimestamp, arrayUnion, updateDoc, arrayRemove } from 'firebase/firestore'
 import { auth, db } from '../firebaseConfig';
 import { usePathname, useRouter } from 'next/navigation';
@@ -212,7 +212,7 @@ export const AuthContextProvider = ({ children }) => {
 
         try {
             if (isMobile) {
-                const result = await signInWithPopup(auth, provider);
+                const result = await signInWithRedirect(auth, provider);
 
                 if (result.user) {
                     const userData = await getUserFromDatabase(result.user.uid);
