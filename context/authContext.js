@@ -206,27 +206,41 @@ export const AuthContextProvider = ({ children }) => {
             console.error('Error sending message as system:', error);
         }
     }
-
-    const signInWithGoogle = async() => {
+    const signInWithGoogle = async () => {
         const provider = new GoogleAuthProvider();
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
         try {
-            const result = await signInWithPopup(auth, provider);
-            
-            if (result.user) {
-                const userData = await getUserFromDatabase(result.user.uid);
+            if (isMobile) {
+                const result = await signInWithPopup(auth, provider);
 
-                if (userData == null) {
-                    await createNewUser(result.user);
+                if (result.user) {
+                    const userData = await getUserFromDatabase(result.user.uid);
 
-                    router.push('/');
-                } else {router.push('/')}
+                    if (userData == null) {
+                        await createNewUser(result.user);
+                        router.push('/');
+                    } else {
+                        router.push('/');
+                    }
+                }
+            } else {
+                const result = await signInWithPopup(auth, provider);
+
+                if (result.user) {
+                    const userData = await getUserFromDatabase(result.user.uid);
+
+                    if (userData == null) {
+                        await createNewUser(result.user);
+                        router.push('/');
+                    } else {
+                        router.push('/');
+                    }
+                }
             }
-
         } catch (error) {
             console.error(error);
         }
-        
     }
 
     useEffect(() => {
