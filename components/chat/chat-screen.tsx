@@ -18,7 +18,7 @@ export function ChatScreen({ chatId }: { chatId: string }) {
 
 
   return (
-    <div className="flex flex-col justify-between max-h-full w-full max-w-full" ref={messageContainer}>
+    <div className="flex flex-col justify-between w-full relative max-h-screen">
       <div className="bg-sidebar sticky top-0 z-10 p-4 border-b flex flex-row items-center justify-between min-h-[81px]">
         <SidebarTrigger />
         <div className="flex items-center gap-4">
@@ -32,7 +32,7 @@ export function ChatScreen({ chatId }: { chatId: string }) {
         </div>
       </div>
 
-      <div className="flex-1 flex flex-col-reverse bg-sidebar max-w-full overflow-y-auto" style={{ WebkitOverflowScrolling: 'touch', height: '100%' }}>
+      <div className="flex flex-col-reverse bg-sidebar max-w-full max-h-full h-full overflow-y-scroll" style={{ WebkitOverflowScrolling: 'touch', height: '100%' }} ref={messageContainer}>
         {groupedMessages.slice().reverse().map((group) => (
           <RenderChatMessage
               key={group.senderID == "system" ? `sys-${Math.random().toString()}` : group.timestamp}
@@ -44,6 +44,8 @@ export function ChatScreen({ chatId }: { chatId: string }) {
           />
         ))}
       </div>
+
+
       <NewMessage chatId={chatId} />
     </div>
   );

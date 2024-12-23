@@ -127,7 +127,7 @@ export default function NewMessage({ chatId }: { chatId: string }) {
   };
 
   return (
-    <div className="p-4 bg-sidebar border-t sticky bottom-0">
+    <div className="p-4 bg-sidebar border-t relative bottom-0">
       <div className="flex relative gap-2">
         <div className='flex-1 relative'>
           <div className='flex gap-2'>
