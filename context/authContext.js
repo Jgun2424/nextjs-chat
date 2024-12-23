@@ -208,23 +208,8 @@ export const AuthContextProvider = ({ children }) => {
     }
     const signInWithGoogle = async () => {
         const provider = new GoogleAuthProvider();
-        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
         try {
-            if (isMobile) {
-                const result = await signInWithRedirect(auth, provider);
-
-                if (result.user) {
-                    const userData = await getUserFromDatabase(result.user.uid);
-
-                    if (userData == null) {
-                        await createNewUser(result.user);
-                        router.push('/');
-                    } else {
-                        router.push('/');
-                    }
-                }
-            } else {
                 const result = await signInWithPopup(auth, provider);
 
                 if (result.user) {
@@ -237,7 +222,6 @@ export const AuthContextProvider = ({ children }) => {
                         router.push('/');
                     }
                 }
-            }
         } catch (error) {
             console.error(error);
         }
