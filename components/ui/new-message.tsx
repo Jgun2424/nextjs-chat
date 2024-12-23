@@ -128,6 +128,10 @@ export default function NewMessage({ chatId }: { chatId: string }) {
           setImage(null);
           setImageQueue([]);
           setImageUrl(null);
+
+          if (inputRef.current) {
+            inputRef.current.focus();
+          }
         };
 
   return (
@@ -159,8 +163,8 @@ export default function NewMessage({ chatId }: { chatId: string }) {
                                     <Input type="text" placeholder="Type a message..." onChange={handleInputChange} value={input} ref={inputRef} />
                                 </form>
                                 <Button type="button" variant="ghost" size="icon" className="absolute right-0 top-0" onClick={() => setShowPicker(!showPicker)}>😁</Button>
-                            </>)
-                            : (
+                            </>
+                            ) : (
                                 <>
                                     <Input type="text" placeholder="Type a message..." onChange={handleInputChange} value={input} ref={inputRef} />
                                     <Button type="button" variant="ghost" size="icon" className="absolute right-0 top-0 z-10" onClick={(e) => handleSendMessage(e)}><SendHorizonalIcon /></Button>
