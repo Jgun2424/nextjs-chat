@@ -9,16 +9,18 @@ import { SidebarTrigger } from '../ui/sidebar';
 export function ChatScreen({ chatId }: { chatId: string }) {
   const { groupedMessages } = useMessages({ chatId });
   const messageContainer = React.useRef<HTMLDivElement>(null);
+  const Containter = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
     if (messageContainer.current) {
       messageContainer.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      Containter.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
     }
   }, [groupedMessages, chatId]);
 
 
   return (
-    <div className="flex flex-col justify-between w-full relative max-h-screen">
+    <div className="flex flex-col justify-between w-full relative max-h-screen" ref={Containter}>
       <div className="bg-sidebar sticky top-0 z-10 p-4 border-b flex flex-row items-center justify-between min-h-[81px]">
         <SidebarTrigger />
         <div className="flex items-center gap-4">
