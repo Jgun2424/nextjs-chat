@@ -18,7 +18,7 @@ export default function AddUserToChat({ chatId }: { chatId: string }) {
     const handleSearchUser = async (e: any) => {
         e.preventDefault()
 
-        let searchInput = e.target.elements[0].value
+        const searchInput = e.target.elements[0].value
 
         if (searchInput.trim() === '') {
             return
