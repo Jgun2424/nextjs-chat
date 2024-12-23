@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Command, Inbox, Layers} from "lucide-react"
+import { Command, Inbox, Layers } from "lucide-react"
 
 import { NavUser } from "@/components/nav-user"
 import {
@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/sidebar"
 import ChatsSidebar from "./chats-sidebar"
 import { usePathname, useRouter } from "next/navigation"
+import { useSidebar } from "@/components/ui/sidebar"
 
 // This is sample data
 const data = {
@@ -44,6 +45,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   const pathname = usePathname()
   const router = useRouter()
+  const { toggleSidebar } = useSidebar()
 
   if (pathname.includes('auth')) {
     return null
@@ -79,13 +81,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 {data.navMain.map((item) => (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton
+
                       tooltip={{
                         children: item.title,
                         hidden: false,
                       }}
                       isActive={pathname.includes(item.url)}
                       onClick={() => {
-                        router.push(item.url)
+                        router.push(item.url);
+                        toggleSidebar();
                       }}
                       className="px-2.5 md:px-2"
                     >
