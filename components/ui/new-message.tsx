@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { Button } from '@/components/ui/button'
 import EmojiPicker, { Theme } from 'emoji-picker-react';
 import { Input } from './input';
@@ -21,8 +21,8 @@ export default function NewMessage({ chatId }: { chatId: string }) {
   const [input, setInput] = useState('');
   const [showPicker, setShowPicker] = useState(false);
   const [imageQueue, setImageQueue] = useState<any[]>([]);
-  const inputRef = React.createRef<HTMLInputElement>();
-  const fileRef = React.createRef<HTMLInputElement>();
+  const inputRef = useRef<HTMLInputElement>(null);
+  const fileRef = useRef<HTMLInputElement>(null);
   const [image, setImage] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
 
@@ -35,9 +35,9 @@ export default function NewMessage({ chatId }: { chatId: string }) {
     setImageQueue([]);
   }, [chatId]);
 
-  const [isMobile, setIsMobile] = React.useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
     };
