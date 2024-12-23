@@ -1,4 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react'
+'use client'
+
+import React, { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import EmojiPicker, { Theme } from 'emoji-picker-react';
 import { Input } from './input';
@@ -6,6 +8,7 @@ import { uploadImage } from '@/utils/uploadImage';
 import { useAuth } from '@/context/authContext';
 import { db } from '@/firebaseConfig';
 import { updateDoc, doc, arrayUnion, serverTimestamp } from 'firebase/firestore';
+import { SendHorizonalIcon } from 'lucide-react';
 
 interface Message {
     senderID: string;
@@ -22,6 +25,7 @@ export default function NewMessage({ chatId }: { chatId: string }) {
   const fileRef = React.createRef<HTMLInputElement>();
   const [image, setImage] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
+  
 
   const { user } = useAuth();
 
@@ -34,6 +38,21 @@ export default function NewMessage({ chatId }: { chatId: string }) {
     ]);
     
   }, [chatId]);
+
+    const [isMobile, setIsMobile] = React.useState(false);
+  
+    React.useEffect(() => {
+      const handleResize = () => {
+        setIsMobile(window.innerWidth <= 768);
+      };
+  
+      handleResize(); // Set initial value
+      window.addEventListener('resize', handleResize);
+  
+      return () => {
+        window.removeEventListener('resize', handleResize);
+      };
+    }, []);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setInput(e.target.value);
@@ -133,10 +152,21 @@ export default function NewMessage({ chatId }: { chatId: string }) {
                 <div className='flex gap-2 relative'>
                     <Button type="button" variant="ghost" size="icon" onClick={() => fileRef.current?.click()} disabled={imageQueue.length >=1}>📁</Button>
                     <input type="file" ref={fileRef} style={{ display: 'none' }} onChange={handleFileChange} />
-                    <form className='w-full' onSubmit={(e) => handleSendMessage(e)}>
-                        <Input type="text" placeholder="Type a message..." onChange={handleInputChange} value={input} ref={inputRef} />
-                    </form>
-                    <Button type="button" variant="ghost" size="icon" className="absolute right-0 top-0" onClick={() => setShowPicker(!showPicker)}>😁</Button>
+                    {
+                        !isMobile ? (
+                            <>
+                                <form className='w-full' onSubmit={(e) => handleSendMessage(e)}>
+                                    <Input type="text" placeholder="Type a message..." onChange={handleInputChange} value={input} ref={inputRef} />
+                                </form>
+                                <Button type="button" variant="ghost" size="icon" className="absolute right-0 top-0" onClick={() => setShowPicker(!showPicker)}>😁</Button>
+                            </>)
+                            : (
+                                <>
+                                    <Input type="text" placeholder="Type a message..." onChange={handleInputChange} value={input} ref={inputRef} />
+                                    <Button type="button" variant="ghost" size="icon" className="absolute right-0 top-0 z-10" onClick={(e) => handleSendMessage(e)}><SendHorizonalIcon /></Button>
+                                </>
+                            )
+                    }
                 </div>
             </div>
           </div>
