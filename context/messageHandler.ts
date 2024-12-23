@@ -85,7 +85,7 @@ export const useMessages = ({ chatId }: MessageHandlerProps) => {
                                     }], // Ensure message is an object
                                     timestamp: message.timestamp,
 
-                                    
+
                                     imageUrl: null,
                                     text: '',
                                 });
@@ -108,5 +108,5 @@ export const useMessages = ({ chatId }: MessageHandlerProps) => {
         }
     }, [user, chatId]);
 
-    return { groupedMessages };
+    return { groupedMessages, users };
 };

@@ -15,7 +15,7 @@ interface chatUsers {
 }
 
 export function ChatScreen({ chatId }: { chatId: string }) {
-  const { groupedMessages } = useMessages({ chatId });
+  const { groupedMessages, users } = useMessages({ chatId });
   const messageContainer = React.useRef<HTMLDivElement>(null);
   const Containter = React.useRef<HTMLDivElement>(null);
   const [savedUsers, setSavedUsers] = useState<chatUsers[]>([]);
@@ -29,18 +29,11 @@ export function ChatScreen({ chatId }: { chatId: string }) {
   }, [groupedMessages, chatId]);
 
   useEffect(() => {
-    // get saved users
-    const localStorageKey = `chat-${chatId}`;
-    
-    const savedUsers = localStorage.getItem(localStorageKey);
+    const savedUsers = users;
+    setSavedUsers(JSON.parse(JSON.stringify(savedUsers)));
+  }, [chatId, users]);
 
-    console.log('savedUsers', JSON.parse(savedUsers as string));
-
-    setSavedUsers(JSON.parse(savedUsers as string));
-    
-  }, [chatId]);
-
-  if (!user) {
+  if (!user && savedUsers.length === 0) {
     return null;
   }
 
@@ -75,14 +68,6 @@ export function ChatScreen({ chatId }: { chatId: string }) {
                 ? savedUsers?.find((chatUser) => chatUser?.uid !== user?.uid)?.displayName
                 : `${savedUsers?.length} group members`}
             </p>
-
-            {[1].length < 1 ? (
-              <div>
-                <Button variant="secondary" onClick={() => sendMessage('Hello! 👋')}>
-                  Say Hello! 👋
-                </Button>
-              </div>
-              ): null}
           </div>
       </div>
 
