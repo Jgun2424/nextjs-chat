@@ -32,7 +32,7 @@ export function ChatScreen({ chatId }: { chatId: string }) {
         </div>
       </div>
 
-      <div className="flex-1 flex flex-col-reverse bg-sidebar max-w-full overflow-hidden">
+      <div className="flex-1 flex flex-col-reverse bg-sidebar max-w-full overflow-y-auto">
         {groupedMessages.slice().reverse().map((group) => (
           <RenderChatMessage
               key={group.senderID == "system" ? `sys-${Math.random().toString()}` : group.timestamp}
