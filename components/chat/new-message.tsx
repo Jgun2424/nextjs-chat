@@ -3,7 +3,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { Button } from '@/components/ui/button'
 import EmojiPicker, { Theme } from 'emoji-picker-react';
-import { Input } from '../input';
+import { Input } from '../ui/input';
 import { uploadImage } from '@/utils/uploadImage';
 import { useAuth } from '@/context/authContext';
 import { db } from '@/firebaseConfig';
@@ -88,6 +88,10 @@ export default function NewMessage({ chatId }: { chatId: string }) {
   const sendMessage = async (message: string) => {
     if (!message.trim()) return;
 
+    if (inputRef.current) {
+      inputRef.current.disabled = true;
+    }
+
     let imageUrl = null;
     if (image) {
       const base64 = await convertBase64(image);
@@ -113,6 +117,10 @@ export default function NewMessage({ chatId }: { chatId: string }) {
         lastChatSenderID: newMessage.senderID,
         lastMessageTime: serverTimestamp(),
       });
+
+      if (inputRef.current) {
+        inputRef.current.disabled = false;
+      }
     } catch (error) {
       console.error('Error sending message:', error);
     }

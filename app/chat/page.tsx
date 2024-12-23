@@ -1,5 +1,5 @@
 'use client'
-import CreateNewChat from '@/components/ui/chat_components/create-new-chat-dialouge'
+import CreateNewChat from '@/components/chat/create-new-chat-dialouge'
 import React from 'react'
 import { useAuth } from '@/context/authContext'
 import ChatsSidebar from '@/components/sidebar/chats-sidebar'

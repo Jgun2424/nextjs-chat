@@ -84,8 +84,10 @@ export const useMessages = ({ chatId }: MessageHandlerProps) => {
                                         imageUrl: message.imageUrl || null,
                                     }], // Ensure message is an object
                                     timestamp: message.timestamp,
+
+                                    
                                     imageUrl: null,
-                                    text: ''
+                                    text: '',
                                 });
                             }
                             return acc;

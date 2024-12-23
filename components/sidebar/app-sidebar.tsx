@@ -18,34 +18,31 @@ import {
 import ChatsSidebar from "./chats-sidebar"
 import { usePathname, useRouter } from "next/navigation"
 import { useSidebar } from "@/components/ui/sidebar"
+import { useAuth } from "@/context/authContext"
 
-// This is sample data
-const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  navMain: [
-    {
-      title: "Direct Messages",
-      url: "/chat",
-      icon: Inbox,
-    },
-    {
-      title: "Servers",
-      url: "/servers",
-      icon: Layers,
-    }
-  ]
-}
 
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
+
+  const data = {
+    navMain: [
+      {
+        title: "Direct Messages",
+        url: "/chat",
+        icon: Inbox,
+      },
+      {
+        title: "Servers",
+        url: "/servers",
+        icon: Layers,
+      }
+    ]
+  }
+
   const pathname = usePathname()
   const router = useRouter()
-  const { toggleSidebar } = useSidebar()
+  const { toggleSidebar, isMobile } = useSidebar()
 
   if (pathname.includes('auth')) {
     return null
@@ -89,7 +86,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                       isActive={pathname.includes(item.url)}
                       onClick={() => {
                         router.push(item.url);
-                        toggleSidebar();
+                        if (isMobile) {
+                          toggleSidebar()
+                        }
                       }}
                       className="px-2.5 md:px-2"
                     >
@@ -103,7 +102,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarGroup>
         </SidebarContent>
         <SidebarFooter>
-          <NavUser user={data.user} />
+          <NavUser />
         </SidebarFooter>
       </Sidebar>
 

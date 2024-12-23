@@ -4,7 +4,7 @@ import Link from 'next/link';
 import moment from 'moment';
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarHeader } from '@/components/ui/sidebar';
 import { Badge } from '../ui/badge';
-import CreateNewChat from '../ui/chat_components/create-new-chat-dialouge';
+import CreateNewChat from '../chat/create-new-chat-dialouge';
 import { useChats } from '@/context/useChats';
 import { useAuth } from '@/context/authContext';
 

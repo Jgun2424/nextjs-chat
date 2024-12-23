@@ -1,8 +1,8 @@
 import React from 'react';
-import { Avatar, AvatarFallback, AvatarImage } from '../avatar';
-import { Popover, PopoverTrigger, PopoverContent } from '../popover';
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { Popover, PopoverTrigger, PopoverContent } from '../ui/popover';
 import moment from 'moment';
-import { Badge } from '../badge';
+import { Badge } from '../ui/badge';
 import UserCard from './user-card';
 
 interface RenderChatMessageProps {
