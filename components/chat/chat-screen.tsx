@@ -6,6 +6,7 @@ import RenderChatMessage from './render-chat-message';
 import NewMessage from './new-message';
 import { SidebarTrigger } from '../ui/sidebar';
 import { useAuth } from '@/context/authContext';
+import { Button } from '../ui/button';
 
 interface chatUsers {
   uid: string;
@@ -39,6 +40,9 @@ export function ChatScreen({ chatId }: { chatId: string }) {
     
   }, [chatId]);
 
+  if (!user) {
+    return null;
+  }
 
   return (
     <div className="flex flex-col justify-between w-full relative max-h-screen" ref={Containter}>
@@ -46,7 +50,7 @@ export function ChatScreen({ chatId }: { chatId: string }) {
         <div className="flex items-center gap-2">
             <SidebarTrigger />
             <span className="text-lg font-semibold mt-1">
-              {savedUsers.find(e => e.uid != user.uid)?.displayName || 'Unknown User'}
+              {savedUsers?.find(e => e.uid != user.uid)?.displayName || 'Unknown User'}
             </span>
           </div>
       </div>
@@ -62,6 +66,24 @@ export function ChatScreen({ chatId }: { chatId: string }) {
               senderPhotoURL={group.senderPhotoURL}
           />
         ))}
+
+          <div className="p-4 flex flex-col text-muted-foreground border-t gap-2">
+            <h3 className="text-4xl font-bold text-white">Welcome</h3>
+            <p>
+              This is the start of your chat history with{' '}
+              {savedUsers?.length === 2
+                ? savedUsers?.find((chatUser) => chatUser?.uid !== user?.uid)?.displayName
+                : `${savedUsers?.length} group members`}
+            </p>
+
+            {[1].length < 1 ? (
+              <div>
+                <Button variant="secondary" onClick={() => sendMessage('Hello! 👋')}>
+                  Say Hello! 👋
+                </Button>
+              </div>
+              ): null}
+          </div>
       </div>
 
 

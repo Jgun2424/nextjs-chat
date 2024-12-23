@@ -41,7 +41,11 @@ const RenderChatMessage: React.FC<RenderChatMessageProps> = ({
                     <div key={idx}>
                         {
                             m.imageUrl ? (
-                                <img src={m.imageUrl} alt="chat-image" className="w-80 h-80 object-cover rounded-md mt-2 mb-1" />
+                                <img 
+                                    src={m.imageUrl} 
+                                    alt="chat-image" 
+                                    className="w-40 h-40 object-cover rounded-md mt-2 mb-1 sm:w-80 sm:h-80" 
+                                />
                             ) : null
                         }
                         <p className={/^(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])+$/.test(m.text) ? 'text-[40px] pt-2': 'break-all'}>
