@@ -4,7 +4,7 @@ import React from 'react'
 import { useAuth } from '@/context/authContext'
 import ChatsSidebar from '@/components/sidebar/chats-sidebar'
 
-export default function page() {
+export default function Page() {
   const { user } = useAuth()
   const [isMobile, setIsMobile] = React.useState(false);
 

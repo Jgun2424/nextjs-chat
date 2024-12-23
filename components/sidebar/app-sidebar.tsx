@@ -1,10 +1,9 @@
 "use client"
 
 import * as React from "react"
-import { ArchiveX, Command, File, Inbox, Send, Trash2 , Layers} from "lucide-react"
+import { Command, Inbox, Layers} from "lucide-react"
 
 import { NavUser } from "@/components/nav-user"
-import { Label } from "@/components/ui/label"
 import {
   Sidebar,
   SidebarContent,
@@ -12,15 +11,12 @@ import {
   SidebarGroup,
   SidebarGroupContent,
   SidebarHeader,
-  SidebarInput,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  useSidebar,
 } from "@/components/ui/sidebar"
 import ChatsSidebar from "./chats-sidebar"
 import { usePathname, useRouter } from "next/navigation"
-import { AvatarGroup } from "../ui/avatar-group"
 
 // This is sample data
 const data = {

@@ -3,9 +3,7 @@ import "./globals.css";
 import { AuthContextProvider } from "../context/authContext";
 import { ThemeProvider } from "@/components/theme-provider";
 import {
-  SidebarInset,
   SidebarProvider,
-  SidebarTrigger,
 } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/sidebar/app-sidebar"
 
@@ -32,9 +30,6 @@ export default function RootLayout({
           >
           <ThemeProvider attribute="class" defaultTheme="dark" disableTransitionOnChange>
             <AppSidebar />
-            <div className="bg-slate-600 absolute left-10 top-10 items-center justify-center hidden max-md:flex">
-              <SidebarTrigger />
-            </div>
             {children}
           </ThemeProvider>
           </SidebarProvider>

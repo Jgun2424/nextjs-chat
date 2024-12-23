@@ -1,5 +1,6 @@
-// lib/cloudinary.ts
+/* eslint-disable @typescript-eslint/no-require-imports */
 const cloudinary = require('cloudinary').v2;
+/* eslint-enable @typescript-eslint/no-require-imports */
 
 // Set up the Cloudinary configuration
 cloudinary.config({

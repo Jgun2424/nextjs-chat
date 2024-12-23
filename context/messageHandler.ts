@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { onSnapshot, doc } from 'firebase/firestore';
 import { db } from '@/firebaseConfig';
 import { useAuth } from './authContext';
-import { send } from 'process';
 
 interface MessageHandlerProps {
     chatId: string;
@@ -28,7 +27,7 @@ interface User {
 export const useMessages = ({ chatId }: MessageHandlerProps) => {
     const { user, getChatDetails, getUserFromDatabase } = useAuth();
     const [groupedMessages, setGroupedMessages] = useState<GroupedMessage[]>([]);
-
+    const [users, setUsers] = useState<User[]>([]);
     const LOCAL_STORAGE_KEY = `chat-${chatId}`;
     const MESSAGE_GROUP_THRESHOLD = 5 * 60 * 1000;
 
@@ -53,8 +52,10 @@ export const useMessages = ({ chatId }: MessageHandlerProps) => {
                     );
                     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(userData));
                     usersInChat = userData;
+                    setUsers(userData);
                 } else {
-                    usersInChat = parsedStoredUsers;        
+                    usersInChat = parsedStoredUsers;    
+                    setUsers(parsedStoredUsers);    
                 }
 
                 const unsubscribe = onSnapshot(doc(db, 'chats', chatId), (doc) => {
