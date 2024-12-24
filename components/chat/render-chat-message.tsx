@@ -34,7 +34,7 @@ const RenderChatMessage: React.FC<RenderChatMessageProps> = ({
                         <UserCard senderDisplayName={senderDisplayName} senderID={senderID} />
                     </span>
                     <span className="text-sm text-muted-foreground">
-                        {timestamp ? moment(timestamp).fromNow() : ''}
+                        {timestamp ? moment(timestamp).calendar() : ''}
                     </span>
                 </div>
                 {message.map((m, idx) => (

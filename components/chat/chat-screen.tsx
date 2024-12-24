@@ -7,6 +7,7 @@ import NewMessage from './new-message';
 import { SidebarTrigger } from '../ui/sidebar';
 import { useAuth } from '@/context/authContext';
 import { Button } from '../ui/button';
+import { ChatSkeleton } from './chat-skeleton';
 
 interface chatUsers {
   uid: string;
@@ -34,7 +35,7 @@ export function ChatScreen({ chatId }: { chatId: string }) {
   }, [chatId, users]);
 
   if (!user && savedUsers.length === 0) {
-    return null;
+    return <ChatSkeleton />;
   }
 
   return (
