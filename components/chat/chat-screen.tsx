@@ -34,7 +34,7 @@ export function ChatScreen({ chatId }: { chatId: string }) {
     setSavedUsers(JSON.parse(JSON.stringify(savedUsers)));
   }, [chatId, users]);
 
-  if (!user && savedUsers.length === 0) {
+  if (!user || savedUsers.length === 0) {
     return <ChatSkeleton />;
   }
 
