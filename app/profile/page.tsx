@@ -10,7 +10,7 @@ import { useSidebar } from '@/components/ui/sidebar';
 import Image from 'next/image';
 
 
-export default function page() {
+export default function Page() {
     const { user } = useAuth()
     const { toggleSidebar, open } = useSidebar()
   
