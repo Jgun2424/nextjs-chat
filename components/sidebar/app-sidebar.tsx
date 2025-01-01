@@ -18,11 +18,12 @@ import {
 import ChatsSidebar from "./chats-sidebar"
 import { usePathname, useRouter } from "next/navigation"
 import { useSidebar } from "@/components/ui/sidebar"
-import { useAuth } from "@/context/authContext"
 
 
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+
+  const [activeNav, setActiveNav] = React.useState('')
 
 
   const data = {
@@ -85,10 +86,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                       }}
                       isActive={pathname.includes(item.url)}
                       onClick={() => {
-                        router.push(item.url);
-                        if (isMobile) {
-                          toggleSidebar()
-                        }
+                        toggleSidebar()
+                        setActiveNav(item.url)
+                        isMobile && router.push(item.url)
+                        
                       }}
                       className="px-2.5 md:px-2"
                     >
@@ -106,7 +107,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarFooter>
       </Sidebar>
 
-      {pathname.includes('chat') ? <ChatsSidebar isMobile={false}/> : null}
+      {activeNav.includes('chat') || pathname.includes('chat') ? <ChatsSidebar isMobile={false}/> : null}
     </Sidebar>
   )
 }

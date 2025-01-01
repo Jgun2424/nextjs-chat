@@ -4,8 +4,10 @@ import { AuthContextProvider } from "../context/authContext";
 import { ThemeProvider } from "@/components/theme-provider";
 import {
   SidebarProvider,
+  SidebarTrigger,
 } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/sidebar/app-sidebar"
+import MobileNav from "@/components/ui/mobile-nav";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -31,6 +33,7 @@ export default function RootLayout({
           <ThemeProvider attribute="class" defaultTheme="dark" disableTransitionOnChange>
             <AppSidebar />
             {children}
+            <MobileNav />
           </ThemeProvider>
           </SidebarProvider>
         </AuthContextProvider>

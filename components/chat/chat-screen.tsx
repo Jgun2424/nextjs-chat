@@ -8,6 +8,9 @@ import { SidebarTrigger } from '../ui/sidebar';
 import { useAuth } from '@/context/authContext';
 import { Button } from '../ui/button';
 import { ChatSkeleton } from './chat-skeleton';
+import { ArrowBigLeft, ArrowBigRight, ArrowDownLeftFromCircle, ChevronLeft, CircleChevronLeft, Menu } from 'lucide-react';
+import Link from 'next/link';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface chatUsers {
   uid: string;
@@ -21,6 +24,8 @@ export function ChatScreen({ chatId }: { chatId: string }) {
   const Containter = React.useRef<HTMLDivElement>(null);
   const [savedUsers, setSavedUsers] = useState<chatUsers[]>([]);
   const { user } = useAuth();
+  const isMobile = useIsMobile();
+  
 
 
   useEffect(() => {
@@ -34,7 +39,7 @@ export function ChatScreen({ chatId }: { chatId: string }) {
     setSavedUsers(JSON.parse(JSON.stringify(savedUsers)));
   }, [chatId, users]);
 
-  if (!user && savedUsers.length === 0) {
+  if (!user || savedUsers.length === 0) {
     return <ChatSkeleton />;
   }
 
@@ -42,7 +47,16 @@ export function ChatScreen({ chatId }: { chatId: string }) {
     <div className="flex flex-col justify-between w-full relative max-h-screen" ref={Containter}>
       <div className="bg-sidebar sticky top-0 z-10 p-4 border-b flex flex-row items-center min-h-[81px]">
         <div className="flex items-center gap-2">
-            <SidebarTrigger />
+            {!isMobile && <SidebarTrigger />}
+            
+            {isMobile && (
+              <Link href="/chat">
+              <div className='bg-sidebar-accent flex items-center justify-center rounded-lg p-1'>
+                <ChevronLeft size={16}/>
+              </div>
+            </Link>
+            )}
+              
             <span className="text-lg font-semibold mt-1">
               {savedUsers?.find(e => e.uid != user.uid)?.displayName || 'Unknown User'}
             </span>
