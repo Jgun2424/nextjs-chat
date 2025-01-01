@@ -43,7 +43,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   const pathname = usePathname()
   const router = useRouter()
-  const { toggleSidebar, isMobile } = useSidebar()
+  const { toggleSidebar } = useSidebar()
 
   if (pathname.includes('auth')) {
     return null
@@ -87,7 +87,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                       isActive={pathname.includes(item.url)}
                       onClick={() => {
                         toggleSidebar()
-                        setActiveNav(item.title)  
+                        setActiveNav(item.url)  
                       }}
                       className="px-2.5 md:px-2"
                     >
@@ -105,7 +105,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarFooter>
       </Sidebar>
 
-      { (activeNav.includes('chat') || pathname.includes('chat')) && <ChatsSidebar isMobile={false}/> }
+      {(activeNav.includes('chat')) && <ChatsSidebar isMobile={false}/> }
     </Sidebar>
   )
 }
