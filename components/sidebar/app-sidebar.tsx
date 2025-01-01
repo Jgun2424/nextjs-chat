@@ -87,9 +87,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                       isActive={pathname.includes(item.url)}
                       onClick={() => {
                         toggleSidebar()
-                        setActiveNav(item.url)
-                        isMobile && router.push(item.url)
-                        
+                        setActiveNav(item.title)  
                       }}
                       className="px-2.5 md:px-2"
                     >
