@@ -9,6 +9,7 @@ import { useAuth } from '@/context/authContext';
 import { db } from '@/firebaseConfig';
 import { updateDoc, doc, arrayUnion, serverTimestamp } from 'firebase/firestore';
 import { SendHorizonalIcon } from 'lucide-react';
+import { sendNotification } from '@/utils/sendNotif';
 
 interface Message {
     senderID: string;
@@ -26,7 +27,7 @@ export default function NewMessage({ chatId }: { chatId: string }) {
   const [image, setImage] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
 
-  const { user } = useAuth();
+  const { user, getUserFromDatabase, getChatDetails } = useAuth();
 
   useEffect(() => {
     if (inputRef.current) {
@@ -117,6 +118,25 @@ export default function NewMessage({ chatId }: { chatId: string }) {
         lastChatSenderID: newMessage.senderID,
         lastMessageTime: serverTimestamp(),
       });
+
+      const chatDetails = JSON.parse(localStorage.getItem(`chat-${chatId}`) || 'null');
+      let otherUserId = chatDetails?.chatUsers?.find((uid: string) => uid !== user.uid);
+      
+      if (!otherUserId) {
+        const fetchedChatDetails = await getChatDetails(chatId);
+        otherUserId = fetchedChatDetails?.chatUsers?.find((uid: string) => uid !== user.uid);
+      }
+      
+      let otherUser = null;
+      if (otherUserId) {
+        const users = JSON.parse(localStorage.getItem(`chat-${chatId}`) || '[]'); // Assuming 'users' is the key where you store user objects
+        otherUser = users.find((user: any) => user.uid === otherUserId);
+      }
+      
+      if (otherUser) {
+        console.log('sending notification to:', otherUser.email);
+        sendNotification(otherUser.email, user.displayName, newMessage.text, chatId);
+      }
 
       if (inputRef.current) {
         inputRef.current.disabled = false;
