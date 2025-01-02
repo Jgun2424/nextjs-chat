@@ -21,15 +21,6 @@ export default function Page() {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    if (open) {
-      if (isMobile) {
-        return
-      }
-      toggleSidebar();
-    }
-  }, []);
-
   if (!user) {
     return null;
   }
