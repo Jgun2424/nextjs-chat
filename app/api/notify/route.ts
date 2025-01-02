@@ -29,6 +29,6 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ message: 'Notification sent successfully' }, { status: 200 });
     } catch (error) {
         console.error('Error sending email: %s', error);
-        return NextResponse.json({ error: 'Error sending notification', details: error.message }, { status: 500 });
+        return NextResponse.json({ error: 'Error sending notification' }, { status: 500 });
     }
 }
