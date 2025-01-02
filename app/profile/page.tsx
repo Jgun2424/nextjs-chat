@@ -123,6 +123,7 @@ export default function Page() {
             </div>
           </section>
           <Button className='w-full' disabled={!changes} onClick={handleSave}>Save changes</Button>
+          {isMobile && <div className='mb-16'></div>}
         </Card>
       </div>
     </div>
