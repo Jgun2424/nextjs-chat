@@ -22,7 +22,10 @@ export default function Page() {
   const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (open && !isMobile) {
+    if (open) {
+      if (isMobile) {
+        return
+      }
       toggleSidebar();
     }
   }, []);
