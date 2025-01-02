@@ -24,8 +24,8 @@ const RenderChatMessage: React.FC<RenderChatMessageProps> = ({
     console.log(message);
     return (
         <div className="flex bg-sidebar px-4 py-2">
-            <Avatar>
-                <AvatarImage src={senderPhotoURL || undefined} />
+            <Avatar className='object-cover'>
+                <AvatarImage src={senderPhotoURL || undefined} className='object-cover'/>
                 <AvatarFallback>{senderDisplayName[0] || 'U'}</AvatarFallback>
             </Avatar>
             <div className="flex flex-col ml-3">

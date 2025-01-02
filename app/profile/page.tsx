@@ -77,7 +77,7 @@ export default function Page() {
         <Card className="flex-1 p-6 space-y-8 bg-sidebar border-gray-800">
           <div className="flex items-start gap-4">
             <div className="h-16 w-16">
-              <Image src={user.photoURL} alt={user.displayName} className="rounded-lg" width={64} height={64} />
+              <Image src={user.photoURL} alt={user.displayName} className="rounded-lg min-w-[64px] min-h-[64px] max-w-[64px] max-h-[64px] object-cover" width={64} height={64} />
             </div>
             <div className="space-y-1">
               <h1 className="text-xl font-semibold flex items-center gap-2">
@@ -111,7 +111,7 @@ export default function Page() {
 
               <div className="flex items-start gap-4">
               <div className="h-16 w-16">
-                <Image src={preview === null ? `${user.photoURL}` : `${preview}`} alt={user.displayName} className="rounded-lg min-w-[64px] min-h-[64px] object-cover" width={64} height={64} />
+                <Image src={preview === null ? `${user.photoURL}` : `${preview}`} alt={user.displayName} className="rounded-lg min-w-[64px] min-h-[64px] max-w-[64px] max-h-[64px] object-cover" width={64} height={64} />
               </div>
                 <div className="flex-1 border border-dashed border-gray-700 rounded-lg p-8 text-center space-y-2">
                   <div className="mx-auto h-10 w-10 rounded-full bg-gray-800 flex items-center justify-center">
