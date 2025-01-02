@@ -22,17 +22,17 @@ export default function MobileNav() {
         <div className="fixed bottom-0 left-0 right-0 bg-sidebar-accent p-4 flex justify-between items-center rounded-t-[30px]">
             <nav className="w-full flex justify-around">
                 <Link href="/chat" className="flex flex-col gap-1 justify-center items-center text-white bg-sidebar-border">
-                    <MessageCircle className="h-6 w-6" />
+                    <MessageCircle className="h-4 w-4" />
                     Chats
                 </Link>
 
                 <Link href="/servers" className="flex flex-col gap-1 justify-center items-center text-white bg-sidebar-border">
-                    <Blocks className="h-6 w-6" />
+                    <Blocks className="h-4 w-4" />
                     Servers
                 </Link>
 
                 <Link href="/profile" className="flex flex-col gap-1 justify-center items-center text-white bg-sidebar-border">
-                    <User2 className="h-6 w-6" />
+                    <User2 className="h-4 w-4" />
                     Profile
                 </Link>
             </nav>

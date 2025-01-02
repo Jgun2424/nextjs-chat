@@ -29,6 +29,7 @@ export const useMessages = ({ chatId }: MessageHandlerProps) => {
     const [users, setUsers] = useState<User[]>([]);
     const LOCAL_STORAGE_KEY = `chat-${chatId}`;
     const MESSAGE_GROUP_THRESHOLD = 5 * 60 * 1000;
+    const EXPIRY_TIME = 5 * 60 * 1000; // 1 hour in milliseconds
 
     useEffect(() => {
         const fetchChat = async () => {
@@ -36,12 +37,15 @@ export const useMessages = ({ chatId }: MessageHandlerProps) => {
 
             if (chatDetails) {
                 const storedUsers = localStorage.getItem(LOCAL_STORAGE_KEY);
+                const storedTimestamp = localStorage.getItem(`${LOCAL_STORAGE_KEY}-timestamp`);
+                const currentTime = new Date().getTime();
                 const users = chatDetails.chatUsers;
                 let usersInChat: User[] = [];
 
                 const parsedStoredUsers = storedUsers ? JSON.parse(storedUsers) : null;
+                const isExpired = !storedTimestamp || currentTime - parseInt(storedTimestamp) > EXPIRY_TIME;
 
-                if (!parsedStoredUsers) {
+                if (!parsedStoredUsers || isExpired) {
                     const userData = await Promise.all(
                         users.map(async (uid: string) => {
                             console.log("fetching user", uid);
@@ -50,6 +54,7 @@ export const useMessages = ({ chatId }: MessageHandlerProps) => {
                         })
                     );
                     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(userData));
+                    localStorage.setItem(`${LOCAL_STORAGE_KEY}-timestamp`, currentTime.toString());
                     usersInChat = userData;
                     setUsers(userData);
                 } else {

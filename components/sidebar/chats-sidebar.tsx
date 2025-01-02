@@ -7,6 +7,7 @@ import { Badge } from '../ui/badge';
 import CreateNewChat from '../chat/create-new-chat-dialouge';
 import { useChats } from '@/context/useChats';
 import { useAuth } from '@/context/authContext';
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 
 export default function ChatsSidebar({isMobile}: {isMobile?: boolean}) {
     const pathname = usePathname();
@@ -36,6 +37,10 @@ export default function ChatsSidebar({isMobile}: {isMobile?: boolean}) {
                                 }`}
                             >
                                 <div className="flex w-full max-w-full items-center gap-2 ">
+                                    <Avatar className='w-8 h-8'>
+                                        <AvatarImage src={chat.otherUser.photoURL} alt={chat.otherUser.displayName} />
+                                        <AvatarFallback>{chat.otherUser.displayName[0]}</AvatarFallback>
+                                    </Avatar>
                                     <span className="text-base font-semibold">{chat?.otherUser?.displayName}</span>
                                     <Badge
                                         className="ml-auto"

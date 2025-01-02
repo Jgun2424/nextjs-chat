@@ -29,23 +29,17 @@ export const useChats = () => {
                         const chatData = doc.data();
 
                         const otherUserId = chatData.chatUsers.find(
-                            (uid: string) => uid !== userDetails.uid
+                            (uid: string) => uid !== user.uid
                         );
 
                         let otherUserDetails = null;
 
                         if (otherUserId) {
-                            otherUserDetails = userCache.get(otherUserId);
-                            if (!otherUserDetails) {
-                                otherUserDetails = await getUserFromDatabase(otherUserId);
-                                if (otherUserDetails) {
-                                    userCache.set(otherUserId, otherUserDetails);
-                                }
+                            otherUserDetails = await getUserFromDatabase(otherUserId);
+                            if (otherUserDetails) {
+                                userCache.set(otherUserId, otherUserDetails);
+                                otherUserDetails = userCache.get(otherUserId);
                             }
-                        }
-
-                        if (!otherUserDetails) {
-                            otherUserDetails = userDetails;
                         }
 
                         return {

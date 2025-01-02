@@ -1,6 +1,6 @@
 'use client'
 import { createContext, useState, useContext, useEffect } from 'react';
-import { onAuthStateChanged, signOut as authSignOut, signInWithPopup, GoogleAuthProvider, signInWithRedirect } from 'firebase/auth';
+import { onAuthStateChanged, signOut as authSignOut, signInWithPopup, GoogleAuthProvider, signInWithRedirect, updateCurrentUser, updateProfile } from 'firebase/auth';
 import { getDoc, doc, setDoc, getDocs, collection, query, where, serverTimestamp, arrayUnion, updateDoc, arrayRemove } from 'firebase/firestore'
 import { auth, db } from '../firebaseConfig';
 import { usePathname, useRouter } from 'next/navigation';
@@ -227,6 +227,22 @@ export const AuthContextProvider = ({ children }) => {
         }
     }
 
+    const updateUserPhotoURL = async (photoURL) => {
+        const userRef = doc(db, 'users', user.uid);
+
+        try {
+            await updateDoc(userRef, {
+                photoURL: photoURL,
+                updatedAt: new Date().toISOString()
+            });
+            await updateProfile(user,{
+                photoURL: photoURL
+            });
+        } catch (error) {
+            console.error('Error updating user photo URL:', error);
+        }
+    }
+
     useEffect(() => {
         if (user) {
             getUserFromDatabase(user.uid);
@@ -234,7 +250,7 @@ export const AuthContextProvider = ({ children }) => {
     }, [user]);
 
     return (
-        <AuthContext.Provider value={{ user, signOut, signInWithGoogle, userDetails, loading, getChatDetails, getUserFromDatabase, searchForUser, createNewChat, addUserToChat, removeUserFromChat, sendMessageAsSystem }}>
+        <AuthContext.Provider value={{ user, signOut, signInWithGoogle, userDetails, loading, getChatDetails, getUserFromDatabase, searchForUser, createNewChat, addUserToChat, removeUserFromChat, sendMessageAsSystem, updateUserPhotoURL }}>
             {loading ? <p>Loading...</p> : children}
         </AuthContext.Provider>
     );
