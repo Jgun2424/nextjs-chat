@@ -42,7 +42,20 @@ Make sure you have the following installed:
    ```bash
    npx shadcn-ui@latest init
    ```
-4. Create a `.env.local` file in the root directory and add your Firebase and Cloudinary configuration.
+4. Create a `.env.local` file in the root directory and add your Firebase and Cloudinary configuration:
+   ```env
+   NEXT_PUBLIC_FIREBASE_API_KEY=your-firebase-api-key
+   NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your-firebase-auth-domain
+   NEXT_PUBLIC_FIREBASE_PROJECT_ID=your-firebase-project-id
+   NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your-firebase-storage-bucket
+   NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your-firebase-messaging-sender-id
+   NEXT_PUBLIC_FIREBASE_APP_ID=your-firebase-app-id
+   NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=your-cloudinary-cloud-name
+   NEXT_PUBLIC_CLOUDINARY_API_KEY=your-cloudinary-api-key
+   CLOUDINARY_API_SECRET=your-cloudinary-api-secret
+   NODEMAILEREMAIL=your-nodemailer-email //optional *todo feature
+   NODEMAILERPASS=your-nodemailer-password //optional *todo feature
+   ```
 5. Start the development server:
    ```bash
    npm run dev
