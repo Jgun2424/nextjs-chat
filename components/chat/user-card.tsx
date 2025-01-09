@@ -24,7 +24,6 @@ export default function UserCard({ senderDisplayName, senderID }: UserCardProps)
   useEffect(() => {
     const fetchUser = async () => {
       const user = await getUserFromDatabase(senderID);
-      console.log('fetching user');
       setUser(user);
     };
 

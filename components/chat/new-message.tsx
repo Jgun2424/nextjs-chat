@@ -119,25 +119,6 @@ export default function NewMessage({ chatId }: { chatId: string }) {
         lastMessageTime: serverTimestamp(),
       });
 
-      const chatDetails = JSON.parse(localStorage.getItem(`chat-${chatId}`) || 'null');
-      let otherUserId = chatDetails?.chatUsers?.find((uid: string) => uid !== user.uid);
-      
-      if (!otherUserId) {
-        const fetchedChatDetails = await getChatDetails(chatId);
-        otherUserId = fetchedChatDetails?.chatUsers?.find((uid: string) => uid !== user.uid);
-      }
-      
-      let otherUser = null;
-      if (otherUserId) {
-        const users = JSON.parse(localStorage.getItem(`chat-${chatId}`) || '[]'); // Assuming 'users' is the key where you store user objects
-        otherUser = users.find((user: any) => user.uid === otherUserId);
-      }
-      
-      if (otherUser) {
-        console.log('sending notification to:', otherUser.email);
-        sendNotification(otherUser.email, user.displayName, newMessage.text, chatId);
-      }
-
       if (inputRef.current) {
         inputRef.current.disabled = false;
       }

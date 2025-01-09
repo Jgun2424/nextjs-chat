@@ -6,6 +6,7 @@ import {
   ChevronsUpDown,
   CreditCard,
   LogOut,
+  Moon,
   Sparkles,
   User,
   UserIcon,
@@ -31,12 +32,14 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
+import { useTheme } from "next-themes"
 import { useAuth } from "@/context/authContext"
 import Link from "next/link"
 
 export function NavUser() {
   const { isMobile } = useSidebar()
   const { signOut, user } = useAuth()
+  const { setTheme } = useTheme()
   
   if (!user) {
     return null
@@ -86,6 +89,32 @@ export function NavUser() {
                 Profile
               </DropdownMenuItem>
             </Link>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <DropdownMenuItem>
+                    <UserIcon />
+                    App Theme
+                  </DropdownMenuItem>
+                </DropdownMenuTrigger>
+
+                <DropdownMenuContent
+                  className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
+                  side="right"
+                  align="end"
+                  sideOffset={4}
+                >
+                  <DropdownMenuGroup>
+                    <DropdownMenuItem onClick={() => setTheme("dark")}>
+                      <Moon />
+                      Dark
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setTheme("light")}>
+                      <Sparkles />
+                      Light
+                    </DropdownMenuItem>
+                  </DropdownMenuGroup>
+                </DropdownMenuContent>
+              </DropdownMenu>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={signOut}>
               <LogOut />

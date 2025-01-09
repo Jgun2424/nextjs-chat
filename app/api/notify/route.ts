@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { transporter } from '../../../lib/nodemailer';
+// page not active anymore
 
 export async function POST(req: NextRequest) {
     try {
