@@ -4,10 +4,12 @@ import { onAuthStateChanged, signOut as authSignOut, signInWithPopup, GoogleAuth
 import { getDoc, doc, setDoc, getDocs, collection, query, where, serverTimestamp, arrayUnion, updateDoc, arrayRemove } from 'firebase/firestore'
 import { auth, db } from '../firebaseConfig';
 import { usePathname, useRouter } from 'next/navigation';
+import { useIsMobile } from '@/hooks/useMobile';
 
 const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
+    const isMobile = useIsMobile();
     const [user, setUser] = useState(null);
     const [userDetails, setUserDetails] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -211,7 +213,7 @@ export const AuthContextProvider = ({ children }) => {
         const provider = new GoogleAuthProvider();
 
         try {
-                const result = await signInWithPopup(auth, provider);
+            let result = await signInWithPopup(auth, provider);
 
                 if (result.user) {
                     const userData = await getUserFromDatabase(result.user.uid);
