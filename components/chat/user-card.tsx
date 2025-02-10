@@ -30,6 +30,7 @@ export default function UserCard({ senderDisplayName, senderID }: UserCardProps)
     if (isOpen) {
       fetchUser();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
 
   return (
@@ -61,6 +62,7 @@ export function UserCardContent({ user }: { user: any }) {
         <Separator className='w-full' />
       </div>
       <div className='flex gap-2 items-start px-4 absolute'>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={user.photoURL} alt={user.displayName} className='h-24 w-24 rounded-full relative top-12 border-4 border-sidebar' />
       </div>
       <div className='flex flex-col gap-2 pt-12 px-4'>

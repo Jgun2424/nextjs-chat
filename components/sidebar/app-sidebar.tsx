@@ -23,7 +23,7 @@ import { useSidebar } from "@/components/ui/sidebar"
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
-  const [activeNav, setActiveNav] = React.useState('')
+  const [activeNav, setActiveNav] = React.useState('chat')
 
 
   const data = {
@@ -32,11 +32,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         title: "Direct Messages",
         url: "/chat",
         icon: Inbox,
-      },
-      {
-        title: "Servers",
-        url: "/servers",
-        icon: Layers,
       }
     ]
   }

@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import { usePathname } from 'next/navigation';
-import { useIsMobile } from '@/hooks/use-mobile';
+import { useIsMobile } from '@/hooks/useMobile';
 import { Home, Search, Bell, User, PlusIcon, MessageCircle, User2, Blocks } from 'lucide-react';
 import Link from 'next/link';
 

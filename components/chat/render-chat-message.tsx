@@ -5,35 +5,40 @@ import UserCard from './user-card';
 import {
     Dialog,
     DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
     DialogTrigger,
   } from "@/components/ui/dialog"
-  
 
-interface RenderChatMessageProps {
-    message: [{ text: string; imageUrl?: string | null }];
-    senderDisplayName: string;
-    timestamp: string;
+  interface Message {
+    messageID: string;
     senderID: string;
-    senderPhotoURL: string | null;
+    imageUrl?: string | null;
+    text: string;
+    timestamp: string;
 }
 
-const RenderChatMessage: React.FC<RenderChatMessageProps> = ({
-    message,
-    senderDisplayName,
-    timestamp,
-    senderID,
-    senderPhotoURL,
-}) => {
+interface GroupedMessages {
+    senderID: string;
+    senderDisplayName: string;
+    senderPhotoURL: string;
+    timestamp: Date;
+    messages: Message[];
+}
 
-    console.log(message);
+
+const RenderChatMessage: React.FC<GroupedMessages> = (props) => {
+
+    
+    const { messages, senderID, senderDisplayName, senderPhotoURL, timestamp } = props;
+
+    console.log(messages)
+
+
+
     return (
         <div className="flex bg-sidebar px-4 py-2">
             <Avatar className='object-cover'>
                 <AvatarImage src={senderPhotoURL || undefined} className='object-cover'/>
-                <AvatarFallback>{senderDisplayName[0] || 'U'}</AvatarFallback>
+                <AvatarFallback>{'U'}</AvatarFallback>
             </Avatar>
             <div className="flex flex-col ml-3">
                 <div className="flex gap-2 items-center">
@@ -44,12 +49,14 @@ const RenderChatMessage: React.FC<RenderChatMessageProps> = ({
                         {timestamp ? moment(timestamp).calendar() : ''}
                     </span>
                 </div>
-                {message.map((m, idx) => (
+                {messages.map((m, idx) => (
                     <div key={idx}>
                         {
                             m.imageUrl ? (
                                 <Dialog>
                                     <DialogTrigger>
+                                        
+                                        {/* eslint-disable-next-line @next/next/no-img-element */}
                                         <img
                                             src={m.imageUrl}
                                             alt="chat-image"
@@ -58,6 +65,7 @@ const RenderChatMessage: React.FC<RenderChatMessageProps> = ({
                                     </DialogTrigger>
 
                                     <DialogContent className='max-w-[55vh] overflow-hidden'>
+                                     {/* eslint-disable-next-line @next/next/no-img-element */}
                                     <img
                                                 src={m.imageUrl}
                                                 alt="chat-image"
@@ -71,7 +79,7 @@ const RenderChatMessage: React.FC<RenderChatMessageProps> = ({
                             {m.text}
                         </p>
                     </div>
-                ))}
+                ))} 
             </div>
         </div>
     );

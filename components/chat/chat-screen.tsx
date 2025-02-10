@@ -1,47 +1,27 @@
 'use client';
 
-import React, {useEffect, useState} from 'react';
-import { useMessages } from '@/context/messageHandler';
+import React, {useEffect} from 'react';
 import RenderChatMessage from './render-chat-message';
 import NewMessage from './new-message';
 import { SidebarTrigger } from '../ui/sidebar';
+import { useChat } from '@/context/chatContext';
+import { useIsMobile } from '@/hooks/useMobile';
+import { ChevronLeft } from 'lucide-react';
+import Link from 'next/link';
 import { useAuth } from '@/context/authContext';
 import { Button } from '../ui/button';
-import { ChatSkeleton } from './chat-skeleton';
-import { ArrowBigLeft, ArrowBigRight, ArrowDownLeftFromCircle, ChevronLeft, CircleChevronLeft, Menu } from 'lucide-react';
-import Link from 'next/link';
-import { useIsMobile } from '@/hooks/use-mobile';
-
-interface chatUsers {
-  uid: string;
-  displayName: string;
-  photoURL: string;
-}
 
 export function ChatScreen({ chatId }: { chatId: string }) {
-  const { groupedMessages, users } = useMessages({ chatId });
-  const messageContainer = React.useRef<HTMLDivElement>(null);
-  const Containter = React.useRef<HTMLDivElement>(null);
-  const [savedUsers, setSavedUsers] = useState<chatUsers[]>([]);
-  const { user } = useAuth();
-  const isMobile = useIsMobile();
-  
-
+  const isMobile = useIsMobile()
+  const { user } = useAuth()
+  const { setChatId, messages, chatUsers, sendMessage } = useChat()
+  const Containter = React.createRef<HTMLDivElement>();
+  const messageContainer = React.createRef<HTMLDivElement>();
 
   useEffect(() => {
-    if (messageContainer.current) {
-      messageContainer.current.scrollTop = messageContainer.current.scrollHeight;
-    }
-  }, [groupedMessages, chatId]);
+    setChatId(chatId)
+  }, [chatId, setChatId])
 
-  useEffect(() => {
-    const savedUsers = users;
-    setSavedUsers(JSON.parse(JSON.stringify(savedUsers)));
-  }, [chatId, users]);
-
-  if (!user || savedUsers.length === 0) {
-    return <ChatSkeleton />;
-  }
 
   return (
     <div className="flex flex-col justify-between w-full relative max-h-screen" ref={Containter}>
@@ -58,31 +38,27 @@ export function ChatScreen({ chatId }: { chatId: string }) {
             )}
               
             <span className="text-lg font-semibold mt-1">
-              {savedUsers?.find(e => e.uid != user.uid)?.displayName || 'Unknown User'}
+              {chatUsers?.length === 2 ? chatUsers?.find((chatUser) => chatUser?.uid !== user?.uid)?.displayName : `${chatUsers?.length} group members`}
             </span>
           </div>
       </div>
 
       <div className="flex flex-col-reverse bg-sidebar max-w-full max-h-full h-full overflow-y-scroll" style={{ WebkitOverflowScrolling: 'touch', height: '100%' }} ref={messageContainer}>
-        {groupedMessages.slice().reverse().map((group) => (
-          <RenderChatMessage
-              key={group.senderID == "system" ? `sys-${Math.random().toString()}` : group.timestamp}
-              message={group.messages as [{ text: string; imageUrl?: string | null }]}
-              senderDisplayName={group.senderDisplayName}
-              timestamp={group.timestamp}
-              senderID={group.senderID}
-              senderPhotoURL={group.senderPhotoURL}
-          />
+        {messages.slice().reverse().map((group, index) => (
+          <RenderChatMessage {...group} key={index}/>
         ))}
 
           <div className="p-4 flex flex-col text-muted-foreground border-t gap-2">
             <h3 className="text-4xl font-bold text-white">Welcome</h3>
             <p>
               This is the start of your chat history with{' '}
-              {savedUsers?.length === 2
-                ? savedUsers?.find((chatUser) => chatUser?.uid !== user?.uid)?.displayName
-                : `${savedUsers?.length} group members`}
+              {chatUsers?.length === 2 ? chatUsers?.find((chatUser) => chatUser?.uid !== user?.uid)?.displayName : `${chatUsers?.length} group members`}
             </p>
+            <div><Button variant="secondary" onClick={
+              async () => {
+                await sendMessage('Hello!', null)
+              }
+            }>👋 Say Hello!</Button></div>
           </div>
       </div>
 

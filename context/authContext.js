@@ -26,6 +26,7 @@ export const AuthContextProvider = ({ children }) => {
         });
 
         return () => unsubscribe();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const signOut = async () => {

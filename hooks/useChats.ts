@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { query, collection, where, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
-import { useAuth } from './authContext';
+import { useAuth } from '../context/authContext';
 
 interface Chat {
     id: string;
@@ -62,6 +62,7 @@ export const useChats = () => {
                 userCache.clear();
             };
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loading, user]);
 
     useEffect(() => {

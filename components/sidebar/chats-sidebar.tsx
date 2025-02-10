@@ -5,7 +5,7 @@ import moment from 'moment';
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarHeader } from '@/components/ui/sidebar';
 import { Badge } from '../ui/badge';
 import CreateNewChat from '../chat/create-new-chat-dialouge';
-import { useChats } from '@/context/useChats';
+import { useChats } from '@/hooks/useChats';
 import { useAuth } from '@/context/authContext';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 

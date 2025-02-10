@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { useAuth } from '@/context/authContext';
 import { useSidebar } from '@/components/ui/sidebar';
 import Image from 'next/image';
-import { useIsMobile } from '@/hooks/use-mobile';
+import { useIsMobile } from '@/hooks/useMobile';
 import { Button } from '@/components/ui/button';
 import { uploadImage } from '@/utils/uploadImage';
 
@@ -34,23 +34,9 @@ export default function Page() {
     }
   };
 
-  const convertBase64 = (file: File) => {
-    return new Promise<string>((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-      fileReader.onload = () => {
-        resolve(fileReader.result as string);
-      };
-      fileReader.onerror = (error) => {
-        reject(error);
-      };
-    });
-  };
-
   const handleUpload = async () => {
     if (image) {
-      const base64 = await convertBase64(image);
-      const uploadedImageUrl = await uploadImage(base64);
+      const uploadedImageUrl = await uploadImage(image);
       return uploadedImageUrl;
     }
   };
@@ -66,7 +52,7 @@ export default function Page() {
   }
 
   return (
-    <div className="flex-1 mx-auto p-6 space-y-8 bg-sidebar overflow-y-scroll max-h-screen">
+    <div className="flex-1 mx-auto p-6 space-y-8 bg-sidebar overflow-y-scroll max-h-screen h-screen">
       <div className="flex items-start gap-6">
         <Card className="flex-1 p-6 space-y-8 bg-sidebar border-gray-800">
           <div className="flex items-start gap-4">
@@ -117,6 +103,7 @@ export default function Page() {
                     <input type="file" ref={fileRef} style={{ display: 'none' }} onChange={handleFileChange} />
                   </div>
                   <p className="text-xs text-gray-500">SVG, PNG, JPG or GIF (max. 800x400px)</p>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   {imageUrl && <img src={imageUrl} alt="Uploaded" className="mt-4" />}
                 </div>
               </div>

@@ -1,3 +1,6 @@
+// deprecated
+// not used in the project
+
 import axios from "axios";
 export const sendNotification = async (email: string, senderName: string, senderMessage: string, chatId: string) => {
     
