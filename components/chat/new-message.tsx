@@ -10,7 +10,7 @@ import { useChat } from '@/context/chatContext';
 import Image from 'next/image';
 
 export default function NewMessage({ chatId }: { chatId: string }) {
-  const { sendMessage } = useChat();
+  const { sendMessage, replyToId, rawMessages, setReplyToId } = useChat();
   const isMobile = useIsMobile();
   const [input, setInput] = useState('');
   const [sending, setSending] = useState(false);
@@ -53,20 +53,37 @@ export default function NewMessage({ chatId }: { chatId: string }) {
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (input.trim() === '') return;
     setSending(true);
     const result = await sendMessage(input, image);
 
     if (result.success) {
       setInput('');
+      setReplyToId(null);
       setImage(null);
       setImagePreview(null);
       setSending(false);
     }
-
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
   };
+
+  useEffect(() => {
+
+    if (!sending) {
+      inputRef.current?.focus();
+    }
+
+  }, [sending]);
+
+  useEffect(() => {
+    if (replyToId) {
+      const message = rawMessages.find((message) => message.messageID === replyToId);
+      if (message) {
+        inputRef.current?.focus();
+      }
+    }
+    
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [replyToId]);
 
   return (
     <div className="p-4 bg-sidebar border-t sticky bottom-0">
@@ -81,6 +98,18 @@ export default function NewMessage({ chatId }: { chatId: string }) {
                 <Image src={imagePreview} alt='image-preview' width={100} height={100} objectFit='cover' className='rounded-md'/>
             </div>
             )}
+
+            {
+              replyToId && (
+                <div className='bg-sidebar-accent p-2 rounded-md flex gap-2 mb-4 relative'>
+                <div className='absolute -top-2 -right-2 border-1 border-white rounded-full bg-red-500 text-white w-4 h-4 flex justify-center items-center cursor-pointer' onClick={() => setReplyToId(null)}>
+                  x
+                </div>
+                  <span className='text-sm'>Replying to:</span>
+                  <span className='font-semibold text-sm'>{rawMessages.find((message) => message.messageID === replyToId)?.text}</span>
+                </div>
+              )
+            }
           </div>
 
           <div className='flex gap-2 relative'>

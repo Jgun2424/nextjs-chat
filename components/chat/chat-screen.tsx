@@ -10,6 +10,7 @@ import { ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
 import { useAuth } from '@/context/authContext';
 import { Button } from '../ui/button';
+import AddUserToChat from './add-user-to-chat';
 
 export function ChatScreen({ chatId }: { chatId: string }) {
   const isMobile = useIsMobile()
@@ -25,7 +26,7 @@ export function ChatScreen({ chatId }: { chatId: string }) {
 
   return (
     <div className="flex flex-col justify-between w-full relative max-h-screen" ref={Containter}>
-      <div className="bg-sidebar sticky top-0 z-10 p-4 border-b flex flex-row items-center min-h-[81px]">
+      <div className="bg-sidebar sticky top-0 z-10 p-4 border-b flex flex-row items-center min-h-[81px] justify-between">
         <div className="flex items-center gap-2">
             {!isMobile && <SidebarTrigger />}
             
@@ -41,15 +42,19 @@ export function ChatScreen({ chatId }: { chatId: string }) {
               {chatUsers?.length === 2 ? chatUsers?.find((chatUser) => chatUser?.uid !== user?.uid)?.displayName : `${chatUsers?.length} group members`}
             </span>
           </div>
+
+          <div>
+            <AddUserToChat chatId={chatId}/>
+          </div>
       </div>
 
-      <div className="flex flex-col-reverse bg-sidebar max-w-full max-h-full h-full overflow-y-scroll" style={{ WebkitOverflowScrolling: 'touch', height: '100%' }} ref={messageContainer}>
+      <div className="flex flex-col-reverse bg-sidebar max-w-full w-full max-h-full h-full overflow-y-scroll flex-1 relative" style={{ WebkitOverflowScrolling: 'touch', height: '100%' }} ref={messageContainer}>
         {messages.slice().reverse().map((group, index) => (
           <RenderChatMessage {...group} key={index}/>
         ))}
 
           <div className="p-4 flex flex-col text-muted-foreground border-t gap-2">
-            <h3 className="text-4xl font-bold">Welcome</h3>
+            <h3 className="text-4xl font-bold text-primary">Welcome</h3>
             <p>
               This is the start of your chat history with{' '}
               {chatUsers?.length === 2 ? chatUsers?.find((chatUser) => chatUser?.uid !== user?.uid)?.displayName : `${chatUsers?.length} group members`}

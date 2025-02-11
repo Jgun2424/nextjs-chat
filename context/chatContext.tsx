@@ -9,6 +9,10 @@ import moment from 'moment';
 interface Message {
     messageID: string;
     senderID: string;
+    senderDisplayName?: string;
+    senderPhotoURL?: string;
+    isReply?: boolean;
+    replyToId?: string | null;
     imageUrl?: string | null;
     text: string;
     timestamp: string;
@@ -24,7 +28,10 @@ interface GroupedMessages {
 
 interface ChatContextType {
     setChatId: (id: string) => void;
+    setReplyToId: (id: string | null) => void;
     sendMessage: (message: string, image: File | null) => Promise<{ success: boolean; error?: any }>;
+    replyToId: string | null;
+    rawMessages: Message[];
     chatId: string | null;
     messages: GroupedMessages[];
     chatUsers: ChatUser[];
@@ -48,9 +55,11 @@ interface ChatProviderProps {
 export function ChatProvider({ children }: ChatProviderProps) {
     const { user, getUserFromDatabase } = useAuth();
     const [messages, setMessages] = useState<GroupedMessages[]>([]);
+    const [rawMessages, setRawMessages] = useState<Message[]>([]);
     const [chatUsers, setChatUsers] = useState<ChatUser[]>([]);
     const [chatId, setChatId] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [replyToId, setReplyToId] = useState<string | null>(null);
 
     const getChatUsers = async () => {
         setIsLoading(true);
@@ -85,10 +94,10 @@ export function ChatProvider({ children }: ChatProviderProps) {
             const currentMessageTime = message.timestamp;
 
             const timeDifference = moment(currentMessageTime).diff(moment(lastMessageTime), 'minutes');
-            
             if (!lastMessage || 
                 lastMessage.senderID !== message.senderID || 
-                timeDifference > time_threshold) {
+                timeDifference > time_threshold || lastMessage?.messages[lastMessage.messages.length - 1].isReply !== message.isReply
+            ) {
                 acc.push({
                     senderID: message.senderID,
                     senderDisplayName: `${chatUsers.find(user => user.uid === message.senderID)?.displayName}`,
@@ -119,8 +128,12 @@ export function ChatProvider({ children }: ChatProviderProps) {
         const newMessage: Message = {
             messageID: crypto.randomUUID(),
             senderID: user?.uid as string,
+            senderDisplayName: user?.displayName as string,
+            senderPhotoURL: user?.photoURL as string,
             text: message.trim(),
             imageUrl: imageUrl,
+            isReply: replyToId ? true : false,
+            replyToId: replyToId,
             timestamp: new Date().toISOString(),
         };
     
@@ -136,6 +149,11 @@ export function ChatProvider({ children }: ChatProviderProps) {
             return { success: false, error };
         }
     };
+
+    const userDoesntExistInChat = (uid: string) => {
+        
+    }
+    
 
 
     useEffect(() => {
@@ -155,14 +173,24 @@ export function ChatProvider({ children }: ChatProviderProps) {
     useEffect(() => {
         if (!chatId || !chatUsers || isLoading) return;
 
-        console.log('chatId', chatId);
-        console.log('chatUsers', chatUsers);
-
         const unsubscribe = onSnapshot(doc(db, 'chats', chatId), (doc) => {
             if (doc.exists()) {
                 const chatData = doc.data();
                 const messages = chatData.messages as Message[];
+                setRawMessages(messages);
                 setMessages(groupMessages(messages));
+
+                if (localStorage.getItem(`chat-users-cache-${chatId}`)) {
+                    const cachedUsers = JSON.parse(localStorage.getItem(`chat-users-cache-${chatId}`) as string);
+                    const chatUsers = doc.data().chatUsers as string[];
+
+                    if (cachedUsers.length !== chatUsers.length) {
+                        getChatUsers();
+                    }
+                } else {
+                    console.log('No cached users');
+                    getChatUsers();
+                }
             }
         });
 
@@ -175,7 +203,7 @@ export function ChatProvider({ children }: ChatProviderProps) {
     
 
     return (
-        <ChatContext.Provider value={{ messages, setChatId, chatId, chatUsers, sendMessage }}>
+        <ChatContext.Provider value={{ messages, setChatId, chatId, chatUsers, sendMessage, setReplyToId, replyToId, rawMessages }}>
             {isLoading ? <ChatSkeleton /> : children}
         </ChatContext.Provider>
     );

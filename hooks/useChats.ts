@@ -27,19 +27,16 @@ export const useChats = () => {
                 Promise.all(
                     querySnapshot.docs.map(async (doc) => {
                         const chatData = doc.data();
-
-                        const otherUserId = chatData.chatUsers.find(
-                            (uid: string) => uid !== user.uid
-                        );
-
-                        let otherUserDetails = null;
-
-                        if (otherUserId) {
-                            otherUserDetails = await getUserFromDatabase(otherUserId);
-                            if (otherUserDetails) {
-                                userCache.set(otherUserId, otherUserDetails);
-                                otherUserDetails = userCache.get(otherUserId);
-                            }
+                        const usersKey = `chat-users-cache-${doc.id}`;
+                        let otherUserDetails;
+                    
+                        if (localStorage.getItem(usersKey)) {
+                            const cachedUsers = JSON.parse(localStorage.getItem(usersKey) as string);
+                            otherUserDetails = cachedUsers.find((cachedUser: any) => cachedUser.uid !== user.uid);
+                        } else {
+                            const otherUser = await getUserFromDatabase(chatData.chatUsers.find((chatUser: string) => chatUser !== user.uid));
+                            localStorage.setItem(usersKey, JSON.stringify([otherUser]));
+                            otherUserDetails = otherUser;
                         }
 
                         return {
